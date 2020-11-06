@@ -1,15 +1,19 @@
 import axios from 'axios'
 export default {
   created: function () {
+    var data = JSON.parse(localStorage.getItem('token'))
+    console.log(data['access-token'])
   },
   methods: {
+
     headers () {
-       data = localStorage.getItem('token')
-      const access = this.data['access-token']
-      const token_typ = this.data['access-token']
-      const clien = this.data['client']
-      const exp = this.data['expiry']
-      const ui = this.data['uid']
+        var data = JSON.parse(localStorage.getItem('token'))
+        console.log(data['access-token'])
+      const access = data['access-token']
+      const token_typ = data['access-token']
+      const clien = data['client']
+      const exp = data['expiry']
+      const ui = data['uid']
       let headers = {
         'access-token': access,
         'token-type': token_typ,

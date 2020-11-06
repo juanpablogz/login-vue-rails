@@ -31,11 +31,13 @@
 
 <script>
 import store from './../store'
+import api from './../mixins/api.js'
 import axios from 'axios'
 import { mapState, mapMutations } from 'vuex'
 export default {
   
   name: 'home',
+  mixins: [api],
   data () {
     return {
       email: '',
@@ -67,18 +69,13 @@ export default {
       console.log(headers)
     },
     auth () {
-      axios
-      .post('http://localhost:3000/auth/sign_in', {
-        email: this.email,
-        password: this.password
-      }) .then(response => (this.data = response.headers,
-      this.$router.push({ path: '/about' })   
-      .catch(error => {
-        console.info(error.message)
+      let params  = { 'email': this.email, 'password': this.password }
+      this.postWithoutToken('auth/sign_in/', params).then((result) => {
+        let data = result.headers
+        localStorage.setItem('token', JSON.stringify(data))
+        this.$router.push('about')
       })
-      ),
-      console.log('login'))
-      },
+    },
     get () {
       axios.get('http://localhost:3000/books', {
         headers: this.headers()
