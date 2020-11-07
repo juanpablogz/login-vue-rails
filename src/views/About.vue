@@ -3,7 +3,7 @@
     <h1>hello world</h1>
     <button @click="getx"> xxxx</button>
     {{this.tokenSave}}
-    <b-button @click="getObjects"  variant="outline-primary">x In</b-button>
+    <button @click="getObjects"  variant="outline-primary">x In</button>
   </div>
 </template>
 
@@ -24,11 +24,14 @@ created () {
 },
 methods: {
   getx () {
-  this.tokenSave = localStorage.getItem('token');
+    this.$router.push('index')
   },
     getObjects () {
-      this.get('books', {}).then((result) => {
-        console.log(result)
+      var data = JSON.parse(localStorage.getItem('token'))
+      let params  = { 'uid': data.uid }
+      console.log(data.uid)
+      this.get('user_books', params).then((result) => {
+      console.log(result)
       })
     },
 }

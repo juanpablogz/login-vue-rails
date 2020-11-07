@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
+import Index from '../views/Index.vue'
+import SignIn from '../views/SignIn.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,6 +19,17 @@ const routes = [
     meta: { auth: true },
   },
   {
+    path: '/index',
+    name: 'Index',
+    component: Index,
+    meta: { auth: true },
+  },
+  {
+    path: '/signIn',
+    name: 'SignIn',
+    component: SignIn
+  },
+  {
     path: '*',
     redirect: '/'
   }
@@ -28,7 +41,7 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/home']
+  const publicPages = ['/home', '/signIn']
   const authRequired = !publicPages.includes(to.path)
   const logeedIn = JSON.parse(localStorage.getItem('token'));
   if (to.meta.auth) {

@@ -1,8 +1,6 @@
 import axios from 'axios'
 export default {
   created: function () {
-    var data = JSON.parse(localStorage.getItem('token'))
-    console.log(data['access-token'])
   },
   methods: {
 
