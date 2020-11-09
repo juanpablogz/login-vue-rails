@@ -8,10 +8,6 @@
       <div class="w-full max-w-xs">
         <form v-on:submit.prevent="auth()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="correo">
-              nombre
-            </label>
-            <input v-model="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="nombre">
           </div>
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="correo">
@@ -62,7 +58,7 @@ export default {
   },
   methods: {
     auth () {
-      let params  = { 'email': this.email, 'password': this.password, 'password': this.name }
+      let params  = { 'email': this.email, 'password': this.password }
       this.postWithoutToken('auth', params).then((result) => {
         let data = result.headers
         localStorage.setItem('token', JSON.stringify(data))
