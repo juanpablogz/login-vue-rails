@@ -5,8 +5,8 @@ export default {
   methods: {
 
     headers () {
-        var data = JSON.parse(localStorage.getItem('token'))
-        console.log(data['access-token'])
+      var data = JSON.parse(localStorage.getItem('token'))
+      console.log(data['access-token'])
       const access = data['access-token']
       const token_typ = data['access-token']
       const clien = data['client']
@@ -33,7 +33,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: 'http://localhost:3000/' + path,
+        url: 'https://control-expense.herokuapp.com/' + path,
         headers: this.headers()
       })
       return res
@@ -42,7 +42,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: 'http://localhost:3000/'+ path,
+        url: 'https://control-expense.herokuapp.com/'+ path,
         headers: this.headers()
       })
       return res
@@ -51,7 +51,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url:'http://localhost:3000/' + path,
+        url:'https://control-expense.herokuapp.com/' + path,
         headers: this.headers()
       })
       return res
@@ -60,7 +60,7 @@ export default {
       let res = axios({
         method: 'DELETE',
         data: data,
-        url: 'http://localhost:3000/'+ path,
+        url: 'https://control-expense.herokuapp.com/'+ path,
         headers: this.headers()
       })
       return res
@@ -69,7 +69,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: 'http://localhost:3000/' + path,
+        url: 'https://control-expense.herokuapp.com/' + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -78,7 +78,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: 'http://localhost:3000/'+ path,
+        url: 'https://control-expense.herokuapp.com/'+ path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -87,7 +87,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: 'http://localhost:3000/' + path,
+        url: 'https://control-expense.herokuapp.com/' + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -96,7 +96,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: 'http://localhost:3000/'+ path,
+        url: 'https://control-expense.herokuapp.com/'+ path,
         headers: this.headersWithouthToken()
       })
       return res

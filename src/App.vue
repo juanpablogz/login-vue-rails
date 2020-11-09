@@ -3,7 +3,16 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+export default {
+      metaInfo: {
+      // if no subcomponents specify a metaInfo.title, this title will be used
+      title: 'Ingresos vs gastos',
+      // all titles will be injected into this template
+      titleTemplate: 'My Awesome Webapp'
+    },
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

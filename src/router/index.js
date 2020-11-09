@@ -41,7 +41,7 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/home', '/signIn']
+  const publicPages = ['/home', '/signIn', '/admin']
   const authRequired = !publicPages.includes(to.path)
   const logeedIn = JSON.parse(localStorage.getItem('token'));
   if (to.meta.auth) {

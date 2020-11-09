@@ -41,14 +41,12 @@
 import api from './../mixins/api.js'
 import axios from 'axios'
 export default {
-  
   name: 'home',
   mixins: [api],
   data () {
     return {
       email: '',
-      password: '',
-      data: {}
+      password: ''
     }
   },
   methods: {
@@ -57,6 +55,7 @@ export default {
       this.postWithoutToken('auth/sign_in/', params).then((result) => {
         let data = result.headers
         localStorage.setItem('token', JSON.stringify(data))
+        localStorage.setItem('id', JSON.stringify(result.data.data.id))
         this.$router.push('about')
       })
     }

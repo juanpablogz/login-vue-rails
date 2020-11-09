@@ -1,16 +1,23 @@
 <template>
   <div>
-    <h1>hello world</h1>
-    <button @click="getx"> xxxx</button>
-    {{this.tokenSave}}
-    <button @click="getObjects"  variant="outline-primary">x In</button>
+        <Navbar/>
+        <Income/>
+        <Expenses/>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import api from './../mixins/api.js'
+import Income from '@/components/Income.vue'
+import Expenses from '@/components/Expenses.vue'
+import Navbar from '@/components/Navbar.vue'
 export default {
+  components: {
+    Navbar,
+    Expenses,
+    Income
+  },
 mixins: [api],
   data () {
     return {
