@@ -59,7 +59,7 @@ export default {
   methods: {
     auth () {
       let params  = { 'email': this.email, 'password': this.password }
-      this.postWithoutToken('auth', params).then((result) => {
+      this.postWithoutToken('auth/', params).then((result) => {
         let data = result.headers
         localStorage.setItem('token', JSON.stringify(data))
         this.$router.push('about')
