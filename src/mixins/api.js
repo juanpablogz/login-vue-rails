@@ -12,6 +12,23 @@ export default {
         return process.env.VUE_APP_URL_API_PRODUCTION
       }
     },
+    headers () {
+      var data = JSON.parse(localStorage.getItem('token'))
+      console.log(data['access-token'])
+      const access = data['access-token']
+      const token_typ = data['access-token']
+      const clien = data['client']
+      const exp = data['expiry']
+      const ui = data['uid']
+      let headers = {
+        'access-token': access,
+        'token-type': token_typ,
+        'client': clien,
+        'expiry': exp,
+        'uid': ui
+      }
+      return headers
+    },
 
     headersWithouthToken () {
       let headers = {
