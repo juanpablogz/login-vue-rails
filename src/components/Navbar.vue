@@ -34,6 +34,7 @@ export default {
   methods: {
     out () {
         localStorage.removeItem('token')
+        localStorage.removeItem('id')
         this.$router.push('/')
     }
     },

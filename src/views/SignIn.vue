@@ -62,6 +62,7 @@ export default {
       this.postWithoutToken('auth/', params).then((result) => {
         let data = result.headers
         localStorage.setItem('token', JSON.stringify(data))
+        localStorage.setItem('id', JSON.stringify(result.data.data.id))
         this.$router.push('about')
       })
     }

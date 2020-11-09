@@ -1,6 +1,7 @@
 <template>
   <div>
         <Navbar/>
+
     <div class="container mx-auto flex justify-center ">
         <apexchart class="mt-12" type="pie" width="380" :options="chartOptions" :series="series"></apexchart>
     </div>
@@ -71,6 +72,7 @@ created () {
         this.incomes = result.data
         this.incomes.forEach(element => this.series.push(element.value));
         this.incomes.forEach(element => this.chartOptions['labels'].push(element.name));
+        console.log(this.incomes)
 
       })
         this.get('user_expenses').then((result) => {
