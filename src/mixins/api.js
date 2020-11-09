@@ -1,10 +1,13 @@
 import axios from 'axios'
 export default {
   created: function () {
+    // coment
   },
   methods: {
     url () {
-       if (window.location.host.includes('localhost')) {
+      if (window.location.host.includes('staging') || window.location.host.includes('lab')) {
+        return process.env.VUE_APP_URL_API_STAGING
+      } else if (window.location.host.includes('localhost')) {
         return process.env.VUE_APP_URL_API
       } if (window.location.host.includes('production')) {
         return process.env.VUE_APP_URL_API_PRODUCTION
@@ -41,7 +44,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: this.url() + path,
+        url:this.url()  + path,
         headers: this.headers()
       })
       return res
@@ -50,7 +53,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: this.url() + path,
+        url:this.url() + path,
         headers: this.headers()
       })
       return res
@@ -59,7 +62,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: this.url() + path,
+        url:this.url()  + path,
         headers: this.headers()
       })
       return res
@@ -69,7 +72,7 @@ export default {
         method: 'DELETE',
         data: data,
         url: this.url() + path,
-        headers: this.headers()
+        headers:this.headers()
       })
       return res
     },
@@ -77,7 +80,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: this.url() + path,
+        url:this.url() + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -86,7 +89,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: this.url() + path,
+        url:this.url() + path,
         headers: this.headersWithouthToken()
       })
       return res
