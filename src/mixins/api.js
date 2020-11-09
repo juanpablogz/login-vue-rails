@@ -1,7 +1,6 @@
 import axios from 'axios'
 export default {
   created: function () {
-    // coment
   },
   methods: {
     url () {
@@ -44,7 +43,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url:this.url()  + path,
+        url: this.url()  + path,
         headers: this.headers()
       })
       return res
@@ -53,7 +52,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url:this.url() + path,
+        url: this.url() + path,
         headers: this.headers()
       })
       return res
@@ -62,7 +61,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url:this.url()  + path,
+        url: this.url()  + path,
         headers: this.headers()
       })
       return res
@@ -72,7 +71,7 @@ export default {
         method: 'DELETE',
         data: data,
         url: this.url() + path,
-        headers:this.headers()
+        headers: this.headers()
       })
       return res
     },
@@ -80,7 +79,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url:this.url() + path,
+        url: this.url() + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -89,7 +88,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url:this.url() + path,
+        url: this.url() + path,
         headers: this.headersWithouthToken()
       })
       return res
