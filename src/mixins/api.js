@@ -3,7 +3,23 @@ export default {
   created: function () {
   },
   methods: {
-
+    url () {
+      if (window.location.host.includes('staging') || window.location.host.includes('lab')) {
+        return process.env.VUE_APP_URL_API_STAGING
+      } else if (window.location.host.includes('localhost')) {
+        return process.env.VUE_APP_URL_API
+      } if (window.location.host.includes('production')) {
+        return process.env.VUE_APP_URL_API_PRODUCTION
+      } else {
+        return process.env.VUE_APP_URL_API_PRODUCTION
+      }
+    },
+    key () {
+      return process.env.VUE_APP_KEY
+    },
+    user () {
+      return JSON.parse(window.localStorage.getItem('user')).user
+    },
     headers () {
       var data = JSON.parse(localStorage.getItem('token'))
       console.log(data['access-token'])
@@ -33,7 +49,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION + path,
+        url: this.url() + path,
         headers: this.headers()
       })
       return res
@@ -42,7 +58,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION+ path,
+        url: this.url()+ path,
         headers: this.headers()
       })
       return res
@@ -51,7 +67,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url:VUE_APP_URL_API_PRODUCTION + path,
+        url:this.url() + path,
         headers: this.headers()
       })
       return res
@@ -60,7 +76,7 @@ export default {
       let res = axios({
         method: 'DELETE',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION+ path,
+        url: this.url()+ path,
         headers: this.headers()
       })
       return res
@@ -69,7 +85,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION + path,
+        url: this.url() + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -78,7 +94,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION+ path,
+        url: this.url()+ path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -87,7 +103,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION + path,
+        url: this.url() + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -96,7 +112,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: VUE_APP_URL_API_PRODUCTION + path,
+        url: this.url()+ path,
         headers: this.headersWithouthToken()
       })
       return res
