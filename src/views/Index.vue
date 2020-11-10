@@ -1,30 +1,8 @@
 <template>
   <div>
         <Navbar/>
-
     <div class="container mx-auto flex justify-center ">
         <apexchart class="mt-12" type="pie" width="380" :options="chartOptions" :series="series"></apexchart>
-    </div>
-  <h1 class="mt-12">gastos</h1>
-    <div class="container mx-auto flex justify-center ">
-    <table class="table-auto ">
-      <thead>
-        <tr>
-          <th class="px-4 py-2">Nombre gasto</th>
-          <th class="px-4 py-2">Total</th>
-          <th class="px-4 py-2">Descripcion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr  v-for="expense in expenses" :key="expense.id">
-          <td class="border px-4 py-2">{{expense.name}}</td>
-          <td class="border px-4 py-2">{{expense.value}}</td>
-          <td class="border px-4 py-2"> {{expense.description}} </td>
-            <button @click="edit(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
-            <button @click="expenseDelete(expense.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
-        </tr>
-      </tbody>
-    </table>
     </div>
   <h1 class="mt-12">ingresos</h1>
     <div class="container mx-auto flex justify-center ">
@@ -45,6 +23,28 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+  <h1 class="mt-12">gastos</h1>
+    <div class="container mx-auto flex justify-center ">
+    <table class="table-auto ">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Nombre gasto</th>
+          <th class="px-4 py-2">Total</th>
+          <th class="px-4 py-2">Descripcion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  v-for="(expense, index) in expenses" :key="index">
+          <td class="border px-4 py-2">{{expense.name}}</td>
+          <td class="border px-4 py-2">{{expense.value}}</td>
+          <td class="border px-4 py-2"> {{expense.description}} </td>
+            <button @click="edit(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
+            <button @click="expenseDelete(index, expense.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </div>
 </template>
@@ -122,23 +122,35 @@ methods: {
         }
       })
   },
-  expenseDelete (id) {
-    // console.log(id)
+  expenseDelete (index,id) {
+    console.log(index)
       let user_id = JSON.parse(localStorage.getItem('id'))
       let params  = { 'user_id': user_id }
-      // console.log(params)
-      this.delete(`expenses/${id}`, params).then((result) => {
-        let data = result.headers
+      console.log(this.expenses)
+      Swal.fire({
+        title: 'Estas seguro?',
+        text: "Lo eliminaras permanentemente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            this.delete(`expenses/${id}`, params).then((result) => {
+              let data = result.headers
+              this.series.splice(index,1)
+              this.expenses.splice(index,1)           
+              console.log(this.expenses)
+            }),
+            'Deleted!',
+            'eliminado correctamente.',
+            'success'
+          )
+        }
       })
   },
-  sweet () {
-Swal.fire({
-  title: 'Error!',
-  text: 'Do you want to continue',
-  icon: 'error',
-  confirmButtonText: 'Cool'
-})
-  }
 },
 // watch: {
 //   incomes: {
