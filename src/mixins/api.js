@@ -1,7 +1,7 @@
 import axios from 'axios'
 export default {
   mounted: function () {
-    console.log(process.env.VUE_APP_URL_API_PRODUCTION)
+    // console.log(process.env.VUE_APP_URL_API_PRODUCTION)
   },
   methods: {
     headers () {

@@ -20,27 +20,28 @@
           <td class="border px-4 py-2">{{expense.name}}</td>
           <td class="border px-4 py-2">{{expense.value}}</td>
           <td class="border px-4 py-2"> {{expense.description}} </td>
+            <button @click="edit(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
+            <button @click="expenseDelete(expense.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
         </tr>
       </tbody>
     </table>
     </div>
   <h1 class="mt-12">ingresos</h1>
     <div class="container mx-auto flex justify-center ">
-      <table class="table-auto ">
+            <table class="table-auto ">
         <thead>
           <tr>
-            <th class="px-4 py-2">Nombre ingreso</th>
             <th class="px-4 py-2">Total</th>
-            <th class="px-4 py-2">Descripcion</th>
           </tr>
         </thead>
         <tbody>
-          <tr  v-for="income in incomes" :key="income.id">
+          <tr  v-for="(income, index) in incomes" :key="index">
             <td class="border px-4 py-2">{{income.name}}</td>
-            <td class="border px-4 py-2">{{income.value}}</td>
-            <td class="border px-4 py-2">{{income.description}}</td>
-            <button @click="edit(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
-            <button @click="delet(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
+            <td class="border px-4 py-2">{{income.id}}</td>
+            <td class="border px-4 py-2">{{index}}</td>
+            <button @click="sweet()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
+            <button @click="delet(index,income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
+            {{income.id}}
           </tr>
         </tbody>
       </table>
@@ -52,6 +53,7 @@
 import axios from 'axios'
 import api from './../mixins/api.js'
 import Navbar from '@/components/Navbar.vue'
+import Swal from 'sweetalert2'
 export default {
   components: {
     Navbar,
@@ -60,13 +62,13 @@ mixins: [api],
   data () {
     return {
       name: {},
-      incomes: {},
+      incomes: [],
       expenses: {},
-            options: {},
-          series: [],
-          chartOptions: {
-            labels: []
-          },
+      options: {},
+      series: [],
+      chartOptions: {
+        labels: []
+      },
     }
   },
 created () {
@@ -74,7 +76,7 @@ created () {
         this.incomes = result.data
         this.incomes.forEach(element => this.series.push(element.value));
         this.incomes.forEach(element => this.chartOptions['labels'].push(element.name));
-        console.log(this.incomes)
+        // console.log(this.incomes)
 
       })
         this.get('user_expenses').then((result) => {
@@ -83,20 +85,70 @@ created () {
         var value = []
         this.expenses.forEach(element => this.series.push(element.value));
         this.expenses.forEach(element => this.chartOptions['labels'].push(element.name));
-        console.log(value)
+        // console.log(value)
         // this.chartOptions['labels'].concat(name)
         // this.chartOptions['labels'].push('xxx', 'juan')
       })
 },
 methods: {
   edit(id) {
+  }, 
+  delet (index,id) {
+    console.log(index)
+      let user_id = JSON.parse(localStorage.getItem('id'))
+      let params  = { 'user_id': user_id }
+      console.log(params)
+      Swal.fire({
+        title: 'Estas seguro?',
+        text: "Lo eliminaras permanentemente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            this.delete(`incomes/${id}`, params).then((result) => {
+              let data = result.headers
+              this.series.splice(index,1)
+              this.incomes.splice(id,1)
+              this.incomes.forEach(element => this.incomes.splice(index,1));
+              console.log(id)
+            }),
+            'Deleted!',
+            'eliminado correctamente.',
+            'success'
+          )
+        }
+      })
+      console.log(this.series)
   },
-  delet(id) {
-    console.log(id)
-    let params = {'id': id}
-    this.delete('incomes', params).then((result) => console.log(result))
+  expenseDelete (id) {
+    // console.log(id)
+      let user_id = JSON.parse(localStorage.getItem('id'))
+      let params  = { 'user_id': user_id }
+      // console.log(params)
+      this.delete(`expenses/${id}`, params).then((result) => {
+        let data = result.headers
+      })
+  },
+  sweet () {
+Swal.fire({
+  title: 'Error!',
+  text: 'Do you want to continue',
+  icon: 'error',
+  confirmButtonText: 'Cool'
+})
   }
-}
+},
+// watch: {
+//   incomes: {
+//      handler(val){
+//      },
+//      deep: true
+//   }
+// }
 }
 </script>
 
