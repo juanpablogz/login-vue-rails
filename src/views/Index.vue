@@ -62,7 +62,7 @@ mixins: [api],
   data () {
     return {
       name: {},
-      incomes: [],
+      incomes: {},
       expenses: {},
       options: {},
       series: [],
@@ -97,7 +97,7 @@ methods: {
     console.log(index)
       let user_id = JSON.parse(localStorage.getItem('id'))
       let params  = { 'user_id': user_id }
-      console.log(params)
+      console.log(this.incomes)
       Swal.fire({
         title: 'Estas seguro?',
         text: "Lo eliminaras permanentemente!",
@@ -112,9 +112,8 @@ methods: {
             this.delete(`incomes/${id}`, params).then((result) => {
               let data = result.headers
               this.series.splice(index,1)
-              this.incomes.splice(id,1)
-              this.incomes.forEach(element => this.incomes.splice(index,1));
-              console.log(id)
+              this.incomes.splice(index,1)           
+              console.log(this.incomes)
             }),
             'Deleted!',
             'eliminado correctamente.',
@@ -122,7 +121,6 @@ methods: {
           )
         }
       })
-      console.log(this.series)
   },
   expenseDelete (id) {
     // console.log(id)
