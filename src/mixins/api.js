@@ -41,7 +41,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: 'https://control-expense.herokuapp.com/' + path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION + path,
         headers: this.headers()
       })
       return res
@@ -50,7 +50,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: 'https://control-expense.herokuapp.com/'+ path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION + path,
         headers: this.headers()
       })
       return res
@@ -59,7 +59,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url:'https://control-expense.herokuapp.com/' + path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION  + path,
         headers: this.headers()
       })
       return res
@@ -68,7 +68,7 @@ export default {
       let res = axios({
         method: 'DELETE',
         data: data,
-        url: 'https://control-expense.herokuapp.com/'+ path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION  + path,
         headers: this.headers()
       })
       return res
@@ -77,7 +77,7 @@ export default {
       let res = axios({
         method: 'POST',
         data: data,
-        url: 'https://control-expense.herokuapp.com/' + path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION  + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -86,7 +86,7 @@ export default {
       let res = axios({
         method: 'GET',
         data: data,
-        url: 'https://control-expense.herokuapp.com/'+ path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -95,7 +95,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: 'https://control-expense.herokuapp.com/' + path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION  + path,
         headers: this.headersWithouthToken()
       })
       return res
@@ -104,7 +104,7 @@ export default {
       let res = axios({
         method: 'PUT',
         data: data,
-        url: 'https://control-expense.herokuapp.com/'+ path,
+        url: VUE_APP_URL_API || VUE_APP_URL_API_PRODUCTION + path,
         headers: this.headersWithouthToken()
       })
       return res
