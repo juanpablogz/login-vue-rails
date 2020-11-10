@@ -16,9 +16,6 @@
           <div class="flex items-center justify-between">
           </div>
         </form>
-            <button @click="getDataUser()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              data
-            </button>
       </div>
   </div>
   </div>
@@ -44,11 +41,6 @@ export default {
         let data = result.headers
         console.log(result)
         localStorage.setItem('token', JSON.stringify(data))
-      })
-    },
-    getDataUser () {
-      this.get('user_incomes').then((result) => {
-        console.log(result)
       })
     }
     },

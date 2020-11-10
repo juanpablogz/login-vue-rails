@@ -39,6 +39,8 @@
             <td class="border px-4 py-2">{{income.name}}</td>
             <td class="border px-4 py-2">{{income.value}}</td>
             <td class="border px-4 py-2">{{income.description}}</td>
+            <button @click="edit(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
+            <button @click="delet(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
           </tr>
         </tbody>
       </table>
@@ -87,6 +89,13 @@ created () {
       })
 },
 methods: {
+  edit(id) {
+  },
+  delet(id) {
+    console.log(id)
+    let params = {'id': id}
+    this.delete('incomes', params).then((result) => console.log(result))
+  }
 }
 }
 </script>
