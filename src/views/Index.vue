@@ -1,47 +1,44 @@
 <template>
   <div>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <Navbar/>
+    <h1 class="mt-12">saldo: {{saldo}} </h1>
     <div class="container mx-auto flex justify-center ">
-        <apexchart class="mt-12" type="pie" width="380" :options="chartOptions" :series="series"></apexchart>
+        <apexchart class="widh mt-12" type="pie" width="380" :options="chartOptions" :series="series"></apexchart>
     </div>
   <h1 class="mt-12">ingresos</h1>
     <div class="container mx-auto flex justify-center ">
             <table class="table-auto ">
         <thead>
           <tr>
-            <th class="px-4 py-2">Total</th>
+            <th class="px-4 py-2">Nombre</th>
           </tr>
         </thead>
         <tbody>
           <tr  v-for="(income, index) in incomes" :key="index">
             <td class="border px-4 py-2">{{income.name}}</td>
-            <td class="border px-4 py-2">{{income.id}}</td>
-            <td class="border px-4 py-2">{{index}}</td>
-            <button @click="sweet()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
-            <button @click="delet(index,income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
-            {{income.id}}
+            <td class="border px-4 py-2">{{income.value}}</td>
+            <a @click="sweet()" class="edit"> <i class="fas fa-edit"></i> </a>
+            <a @click="delet(index,income.id)" class="color p-2 w-32 h-12"><i class="fas fa-trash-alt"></i></a>
           </tr>
         </tbody>
       </table>
     </div>
 
   <h1 class="mt-12">gastos</h1>
-    <div class="container mx-auto flex justify-center ">
+    <div class="container mx-auto flex justify-center">
     <table class="table-auto ">
       <thead>
         <tr>
-          <th class="px-4 py-2">Nombre gasto</th>
-          <th class="px-4 py-2">Total</th>
-          <th class="px-4 py-2">Descripcion</th>
+          <th class="px-4 py-2">Nombre</th>
         </tr>
       </thead>
       <tbody>
         <tr  v-for="(expense, index) in expenses" :key="index">
           <td class="border px-4 py-2">{{expense.name}}</td>
           <td class="border px-4 py-2">{{expense.value}}</td>
-          <td class="border px-4 py-2"> {{expense.description}} </td>
-            <button @click="edit(income.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-6 mt-2 mb-2">editar</button>
-            <button @click="expenseDelete(index, expense.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">eliminar</button>
+            <a @click="edit(income.id)" class="edit"> <i class="fas fa-edit"></i> </a>
+            <a @click="expenseDelete(index, expense.id)" class="color"><i class="fas fa-trash-alt"></i></a>
         </tr>
       </tbody>
     </table>
@@ -66,6 +63,10 @@ mixins: [api],
       expenses: {},
       options: {},
       series: [],
+      incomeBalance: [],
+      expenseBalance: [],
+      expenses: 0,
+      newSaldo: 0,
       chartOptions: {
         labels: []
       },
@@ -75,8 +76,9 @@ created () {
         this.get('user_incomes').then((result) => {
         this.incomes = result.data
         this.incomes.forEach(element => this.series.push(element.value));
+        this.incomes.forEach(element => this.incomeBalance.push(element.value));
         this.incomes.forEach(element => this.chartOptions['labels'].push(element.name));
-        // console.log(this.incomes)
+        console.log(this.incomeBalance)
 
       })
         this.get('user_expenses').then((result) => {
@@ -84,8 +86,9 @@ created () {
         // console.log(this.expenses)
         var value = []
         this.expenses.forEach(element => this.series.push(element.value));
+        this.expenses.forEach(element => this.expenseBalance.push(element.value));
         this.expenses.forEach(element => this.chartOptions['labels'].push(element.name));
-        // console.log(value)
+         console.log(this.expenseBalance)
         // this.chartOptions['labels'].concat(name)
         // this.chartOptions['labels'].push('xxx', 'juan')
       })
@@ -94,10 +97,10 @@ methods: {
   edit(id) {
   }, 
   delet (index,id) {
-    console.log(index)
+    // console.log(index)
       let user_id = JSON.parse(localStorage.getItem('id'))
       let params  = { 'user_id': user_id }
-      console.log(this.incomes)
+      // console.log(this.incomes)
       Swal.fire({
         title: 'Estas seguro?',
         text: "Lo eliminaras permanentemente!",
@@ -114,6 +117,7 @@ methods: {
               this.series.splice(index,1)
               this.incomes.splice(index,1)           
               console.log(this.incomes)
+              saldo () 
             }),
             'Deleted!',
             'eliminado correctamente.',
@@ -123,10 +127,10 @@ methods: {
       })
   },
   expenseDelete (index,id) {
-    console.log(index)
+    // console.log(index)
       let user_id = JSON.parse(localStorage.getItem('id'))
       let params  = { 'user_id': user_id }
-      console.log(this.expenses)
+      // console.log(this.expenses)
       Swal.fire({
         title: 'Estas seguro?',
         text: "Lo eliminaras permanentemente!",
@@ -152,16 +156,36 @@ methods: {
       })
   },
 },
-// watch: {
-//   incomes: {
-//      handler(val){
-//      },
-//      deep: true
-//   }
-// }
+computed: {
+  saldo () {
+    let expense = this.expenseBalance.reduce((a, b) => a + b, 0);
+    let income = this.incomeBalance.reduce((a, b) => a + b, 0);
+    console.log(income-expense)
+    return income-expense
+  }
+},
+watch: {
+    saldo(newValue) {
+        console.warn(`yes, computed property changed: ${newValue}`);
+    },
+}
 }
 </script>
 
 <style>
-
+@media (max-width: 600px) {
+}
+.color {
+  color: red;
+}
+.color:hover {
+  color: black;
+}
+.edit {
+  color: #3185FC;
+  padding: 20px;
+}
+.edit:hover {
+  color: black;
+}
 </style>
